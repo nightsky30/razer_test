@@ -65,6 +65,8 @@ bool RazerMatrixDevice::defineCustomFrame(uchar row, uchar startColumn, uchar en
 
     if (quirks.contains(RazerDeviceQuirks::FireflyCustomFrame)) {
         report = razer_chroma_misc_one_row_set_custom_frame(startColumn, endColumn, reinterpret_cast<const uchar *>(rgbData.constData()));
+    } else if (quirks.contains(RazerDeviceQuirks::MouseMatrix)) {
+        report = razer_chroma_extended_matrix_set_custom_frame(row, startColumn, endColumn, reinterpret_cast<const uchar *>(rgbData.constData()));
     } else {
         report = razer_chroma_standard_matrix_set_custom_frame(row, startColumn, endColumn, reinterpret_cast<const uchar *>(rgbData.constData()));
     }

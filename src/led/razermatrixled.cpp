@@ -34,11 +34,12 @@ bool RazerMatrixLED::initialize()
             return false;
         }
     }
-    if (!setSpectrum()) {
-        qWarning("Error during setSpectrumInit()");
-        return false;
+    if(device->hasQuirk(RazerDeviceQuirks::MouseMatrix)) {
+        setMouseMatrixEffect(RazerMouseMatrixEffectId::CustomFrame);
+    } else {
+        setMatrixEffect(RazerMatrixEffectId::CustomFrame);
     }
-    effect = RazerEffect::Spectrum;
+    effect = RazerEffect::Off;
     return true;
 }
 
