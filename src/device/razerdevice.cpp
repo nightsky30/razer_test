@@ -23,6 +23,8 @@
 
 #include "razerdevice.h"
 
+#define DEBUG
+
 RazerDevice::RazerDevice(QString dev_path, ushort vendor_id, ushort product_id, QString name, QString type, QVector<RazerLedId> ledIds, QStringList fx, QStringList features, QVector<RazerDeviceQuirks> quirks, MatrixDimensions matrixDimensions, ushort maxDPI)
 {
     this->dev_path = dev_path;
@@ -134,10 +136,10 @@ bool RazerDevice::sendReport(razer_report request_report, razer_report *response
 #ifdef DEBUG
         printf("Response report: Status: %02x transaction id: %02x Data size: %02x Command class: %02x Command id: %02x\n",
                response_report->status,
-               response_report->transaction_id.id,
+               response_report->transaction_id,
                response_report->data_size,
                response_report->command_class,
-               response_report->command_id.id);
+               response_report->command_id);
 #endif
 
         if (response_report->status == RazerStatus::NOT_SUPPORTED) {
