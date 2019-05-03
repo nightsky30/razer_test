@@ -233,7 +233,7 @@ bool RazerMatrixLED::setExtendedMatrixEffect(RazerMouseMatrixEffectId effect, uc
 {
     razer_report report, response_report;
 
-    report = razer_chroma_extended_matrix_effect(/*arg_size*/ 12, RazerVarstore::NOSTORE, this->ledId, effect);
+    report = razer_chroma_extended_matrix_effect(/*arg_size*/ 12, RazerVarstore::STORE, this->ledId, effect);
     report.arguments[3] = arg3;
     report.arguments[4] = arg4;
     report.arguments[5] = arg5;
