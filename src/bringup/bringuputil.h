@@ -34,19 +34,25 @@ public:
     bool newDevice();
 
     // Automatic
-    bool testDPI();
-    bool testPollRate();
-    bool testKeyboardLayout();
-    bool testBrightness();
+    static bool testDPI(RazerDevice *device);
+    static bool testPollRate(RazerDevice *device);
+    static bool testKeyboardLayout(RazerDevice *device);
+    static bool testBrightness(RazerDevice *device);
 
     // Interactive
-    QVector<RazerEffect> testLedEffects();
+    static QVector<RazerEffect> testLedEffects(RazerDevice *device);
 
 private:
     struct hid_device_info *hid_dev_info;
     RazerDevice *device;
+    bool deviceHasRgb;
 
-    bool setEffect(RazerLED *led, razer_test::RazerEffect effect, razer_test::RGB color1, razer_test::RGB color2, razer_test::RGB color3);
+    static bool setEffect(RazerLED *led, razer_test::RazerEffect effect, razer_test::RGB color1, razer_test::RGB color2, razer_test::RGB color3);
+    RazerDevice *tryDevice(QString pclass, QVector<razer_test::RazerLedId> ledIds, QStringList fx, QVector<RazerDeviceQuirks> quirks);
+
+    const QVector<RazerLedId> allLedIds = { RazerLedId::ScrollWheelLED, RazerLedId::BatteryLED, RazerLedId::LogoLED, RazerLedId::BacklightLED, RazerLedId::MacroRecordingLED, RazerLedId::GameModeLED, RazerLedId::KeymapRedLED, RazerLedId::KeymapGreenLED, RazerLedId::KeymapBlueLED, RazerLedId::RightSideLED, RazerLedId::LeftSideLED };
+    // The case for super old devices, that just support "LED on" and "LED off", no brightness, no color
+    const QStringList minimalFx = { "off", "on" };
 };
 
 #endif // BRINGUPUTIL_H

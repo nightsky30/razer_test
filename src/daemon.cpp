@@ -99,27 +99,27 @@ bool Daemon::initialize()
     if (devices.isEmpty()) {
         qFatal("No device found. Exiting.");
     }
-    foreach (RazerDevice *razerDevice, devices) {
-        qInfo() << "Device:" << razerDevice->getName();
-        qInfo() << "Serial:" << razerDevice->getSerial();
-        qInfo() << "Firmware version:" << razerDevice->getFirmwareVersion();
+    foreach (RazerDevice *device, devices) {
+        qInfo() << "Device:" << device->getName();
+        qInfo() << "Serial:" << device->getSerial();
+        qInfo() << "Firmware version:" << device->getFirmwareVersion();
 
-        foreach (RazerLED *led, razerDevice->getLeds()) {
+        foreach (RazerLED *led, device->getLeds()) {
             qInfo() << "Setting LED to static with color #FFFF00";
             qDebug() << "LED object path:" << led->getObjectPath().path();
             led->setStatic({ 0xFF, 0xFF, 0x00 });
             led->setBrightness(255);
         }
 
-        BringupUtil bringupUtil = BringupUtil(razerDevice);
+        BringupUtil bringupUtil = BringupUtil(device);
         // Automatic
-        bringupUtil.testDPI();
-        bringupUtil.testPollRate();
-        bringupUtil.testKeyboardLayout();
-        bringupUtil.testBrightness();
+        bringupUtil.testDPI(device);
+        bringupUtil.testPollRate(device);
+        bringupUtil.testKeyboardLayout(device);
+        bringupUtil.testBrightness(device);
 
         // Interactive
-        bringupUtil.testLedEffects();
+        bringupUtil.testLedEffects(device);
     }
     return true;
 
